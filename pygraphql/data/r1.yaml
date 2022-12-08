@@ -1,0 +1,15 @@
+entities:
+  - SE_Requirement:
+      eid: "R1.1"
+      shortName: "Do the action"
+      reqText: "GIVEN a thing WHEN button B2 is pressed THEN do the action A11."
+      req_type: "FUNCTIONAL"
+      derivedFrom_ids:
+        -
+  - SE_Requirement:
+      eid: "R1.1.2"
+      shortName: String
+      reqText: String!
+      req_type: "FUNCTIONAL"
+      derivedFrom_ids:
+        - "R1.1"

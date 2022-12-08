@@ -1,0 +1,5 @@
+PyYAML
+ariadne>=0.16.0
+websockets
+uvicorn
+gql

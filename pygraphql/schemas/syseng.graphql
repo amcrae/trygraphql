@@ -1,0 +1,42 @@
+enum SE_ReqType {
+	FUNCTIONAL
+	PERFORMANCE
+	QUALITY
+	COST
+}
+
+type SE_Requirement {
+  eid: String!
+  shortName: String
+  reqText: String!
+  req_type: SE_ReqType!
+  derivedFrom_ids: [String!]
+  
+}
+
+input SE_Requirement_new {
+  eid: String
+  shortName: String
+  reqText: String!
+  req_type: SE_ReqType!
+  derivedFrom_ids: [String!]
+}
+
+type SEQueries {
+  requirements: [SE_Requirement!]
+
+}
+
+type SEMutations {
+  createRequirement(newreq: SE_Requirement_new): SE_Requirement
+}
+
+type Subscription {
+  newReqs: [SE_Requirement!]
+}
+
+schema {
+  query: SEQueries
+  mutation: SEMutations
+  subscription: Subscription
+}
