@@ -5,13 +5,21 @@ enum SE_ReqType {
 	COST
 }
 
-type SE_Requirement {
+interface Generic_Entity {
   eid: String!
+  etype: String!
   shortName: String
+  derivedFrom_ids: [String!]
+}
+
+type SE_Requirement implements Generic_Entity {
+  eid: String!
+  etype: String!
+  shortName: String
+  derivedFrom_ids: [String!]
   reqText: String!
   req_type: SE_ReqType!
-  derivedFrom_ids: [String!]
-  
+  on: Boolean   # Added to test whether 'on' was a reserved word.
 }
 
 input SE_Requirement_new {
@@ -20,11 +28,25 @@ input SE_Requirement_new {
   reqText: String!
   req_type: SE_ReqType!
   derivedFrom_ids: [String!]
+  on: Boolean
 }
+
+type SE_StakeholderNeed implements Generic_Entity {
+  eid: String!
+  etype: String!
+  shortName: String
+  derivedFrom_ids: [String!]
+  sourceDocumentId: String!
+  sourceDocumentURL: String
+  locationInDocument: String
+  sampleNeedTexts: [String!]
+}
+
+union GenericSearchResult = SE_Requirement | SE_StakeholderNeed
 
 type SEQueries {
   requirements: [SE_Requirement!]
-
+  searchByName(shortNamePattern: String): [Generic_Entity!]
 }
 
 type SEMutations {

@@ -1,0 +1,11 @@
+# Write your query or mutation here
+query { 
+  requirements {
+    eid
+    shortName
+    derivedFrom_ids
+    on
+  }
+}
+
+---

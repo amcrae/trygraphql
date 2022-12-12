@@ -8,7 +8,7 @@ from asyncio import Queue, QueueEmpty
 
 from graphql import GraphQLResolveInfo
 
-from ariadne import gql, QueryType, ObjectType, SubscriptionType
+from ariadne import gql, QueryType, ObjectType, InterfaceType, SubscriptionType
 from ariadne import make_executable_schema
 from ariadne.asgi import GraphQL
 
@@ -23,7 +23,7 @@ class SEEntityServer:
         self.add_data_from_file(Path("./data/r1.yaml"))
         self.nextId = 1001
         self.new_entity_events = Queue(1000)
-        # print(self.entity_cache)
+        print(self.entity_cache)
 
     def init_schema(self):
         with open("./schemas/syseng.graphql") as f:
@@ -67,6 +67,27 @@ class SEEntityServer:
         def resolve_shortName(par_obj, info):
             return par_obj["shortName"]
         """
+
+        genericentity = InterfaceType("Generic_Entity")
+
+        @genericentity.type_resolver
+        def resolve_generic_type(obj, *_):
+            if obj["etype"] == "Requirement":
+                return "SE_Requirement"
+            elif obj["etype"] == "StakeholderNeed":
+                return "SE_StakeholderNeed"
+            else:
+                return None
+
+        @sequeries.field("searchByName")
+        def resolve_searchbyname(par_obj, info, shortNamePattern: str): 
+            print("resolve_searchbyname", shortNamePattern)
+            answer = []
+            for idk in memcache:
+                entity = memcache[idk]
+                if shortNamePattern in entity["shortName"]:
+                    answer.append(entity)
+            return answer
 
         semutations = ObjectType("SEMutations")
         
@@ -115,7 +136,7 @@ class SEEntityServer:
             return reqs
 
         self.schema = make_executable_schema(
-            self.gql_types, sequeries, req_result, 
+            self.gql_types, genericentity, sequeries, req_result, 
             semutations, sesubs
         )
 

@@ -1,0 +1,20 @@
+mutation makeReq( $req: SE_Requirement_new ) {
+  createRequirement(newreq: $req) {
+    eid
+    reqText
+    shortName
+    req_type
+    on
+  }
+}
+
+---
+
+{
+  "req": {
+    "reqText": "GIVEN a req, WHEN asked to save it, THEN the req text is stored durably.",
+    "req_type": "FUNCTIONAL",
+    "shortName": "test mutation",
+    "on": false
+  }
+}

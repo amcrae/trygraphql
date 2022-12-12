@@ -1,0 +1,19 @@
+query findbynameexample($namepart: String) {
+  searchByName(shortNamePattern: $namepart) {
+    eid
+    shortName
+    ... on SE_Requirement {
+      req_type
+      on
+    }
+    ... on SE_StakeholderNeed {
+      sourceDocumentId
+    }
+  }
+}
+
+---
+
+{
+  "namepart": "a"
+}

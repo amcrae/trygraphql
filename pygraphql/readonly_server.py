@@ -18,6 +18,7 @@ class SEEntityServer:
         with open("./schemas/syseng.graphql") as f:
             schema_text = f.read()
         self.gql_types = gql(schema_text)
+        print("Ariadne schema check was OK.") 
 
     def add_data_from_file(self, yamlfile: Path):
         with open(yamlfile, "r") as yf:

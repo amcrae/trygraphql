@@ -1,15 +1,33 @@
 entities:
   - SE_Requirement:
       eid: "R1.1"
+      etype: "Requirement"
       shortName: "Do the action"
       reqText: "GIVEN a thing WHEN button B2 is pressed THEN do the action A11."
       req_type: "FUNCTIONAL"
-      derivedFrom_ids:
-        -
+      derivedFrom_ids: [ ]  # empty list required by schema.
+  
   - SE_Requirement:
       eid: "R1.1.2"
-      shortName: String
-      reqText: String!
-      req_type: "FUNCTIONAL"
+      etype: "Requirement"
+      shortName: aString
       derivedFrom_ids:
         - "R1.1"
+      reqText: aString!
+      req_type: "FUNCTIONAL"
+      # implementation quirk:
+      # python YAML parser supports old YAML1.1 syntax for 'on'==True.
+      # therefore a field called 'on' must be quoted even though neither GraphQL nor YAML require it.
+      "on": true
+  
+  - SE_StakeholderNeed:
+      eid: "N2.1.0"
+      etype: "StakeholderNeed"
+      shortName: "Move fast"
+      derivedFrom_ids: [ ]
+      sourceDocumentId: "Our Need for SuperCapability2022"
+      sourceDocumentURL: "http://example.com/projects/sc2022/needs.doc"
+      locationInDocument: "Paragraph 2.1"
+      sampleNeedTexts:
+        - "the director wishes the product to move fast"
+        - "sentiment was agreed to by key customers."
